@@ -176,6 +176,8 @@
     <ClCompile Include="program\dxlib_ext\OBJLoader.cpp" />
     <ClCompile Include="program\game\gm_main.cpp" />
     <ClCompile Include="program\game\Manager\GameManager.cpp" />
+    <ClCompile Include="program\game\Object\Block.cpp" />
+    <ClCompile Include="program\game\Object\Camera.cpp" />
     <ClCompile Include="program\game\Scene\PlayScene.cpp" />
     <ClCompile Include="program\game\Scene\SceneBace.cpp" />
     <ClCompile Include="program\library\json11.cpp" />
@@ -230,6 +232,8 @@
     <ClInclude Include="program\dxlib_ext\OBJLoader.h" />
     <ClInclude Include="program\game\gm_main.h" />
     <ClInclude Include="program\game\Manager\GameManager.h" />
+    <ClInclude Include="program\game\Object\Block.h" />
+    <ClInclude Include="program\game\Object\Camera.h" />
     <ClInclude Include="program\game\Scene\PlayScene.h" />
     <ClInclude Include="program\game\Scene\SceneBace.h" />
     <ClInclude Include="program\library\json11.hpp" />

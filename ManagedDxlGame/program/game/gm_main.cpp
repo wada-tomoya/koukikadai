@@ -11,18 +11,14 @@
 // ゲーム起動時に１度だけ実行されます
 void gameStart() {
 	GameManager::GetInstance(new PlayScene());
-
-	srand(time(0));
-	SetBackgroundColor(32, 32, 32);
+		
 }
-
 
 //------------------------------------------------------------------------------------------------------------
 // 毎フレーム実行されます
 void gameMain(float delta_time) {
 	GameManager::GetInstance()->Update(delta_time);
 
-	DrawFpsIndicator({ 10, DXE_WINDOW_HEIGHT - 10, 0 }, delta_time);
 }
 
 //------------------------------------------------------------------------------------------------------------

@@ -35,9 +35,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="ManagedDxlGame.cpp">
-      <Filter>program</Filter>
-    </ClCompile>
     <ClCompile Include="program\library\tnl_font_texture.cpp">
       <Filter>program\[000] library</Filter>
     </ClCompile>
@@ -172,6 +169,15 @@
     </ClCompile>
     <ClCompile Include="program\game\Scene\PlayScene.cpp">
       <Filter>program\[003] game\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="ManagedDxlGame.cpp">
+      <Filter>program</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\Object\Block.cpp">
+      <Filter>program\[003] game\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\Object\Camera.cpp">
+      <Filter>program\[003] game\Object</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -343,6 +349,12 @@
     </ClInclude>
     <ClInclude Include="program\game\Scene\PlayScene.h">
       <Filter>program\[003] game\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\Object\Block.h">
+      <Filter>program\[003] game\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\Object\Camera.h">
+      <Filter>program\[003] game\Object</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

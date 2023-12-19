@@ -30,3 +30,8 @@
 *.exe
 *.out
 *.app
+
+#除外ファイル
+*.vs/
+*x64/
+*ManagedDxlGame/x64/
