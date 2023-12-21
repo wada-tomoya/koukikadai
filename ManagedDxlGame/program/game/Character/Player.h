@@ -4,12 +4,15 @@
 #include "CharacterBase.h"
 #include "../Object/Attack/Attack.h"
 
+
 class Player : public CharacterBase {
 private:
 	//‰æ‘œƒnƒ“ƒhƒ‹
 	int graphhdl_;
 
 	tnl::Vector3 mato_pos_{ 1000,100,0 };
+
+	std::shared_ptr<Attack> attack_ = nullptr;
 
 public:
 	Player();

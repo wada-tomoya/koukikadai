@@ -7,10 +7,15 @@ Player::Player() {
 	
 	graphhdl_ = LoadGraph("graphics/char_test.png");
 
+	attack_ = std::make_shared<Attack>();
 }
 
 void Player::Update(float delta_time) {
 	Move(delta_time);
+
+	if (tnl::Input::IsKeyDown(eKeys::KB_SPACE)) {
+		attack_->Shot(10, pos_, mato_pos_);
+	}
 }
 
 void Player::Draw(float delta_time) {

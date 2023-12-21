@@ -18,7 +18,7 @@ void PlayScene::Update(float delta_time) {
 
 void PlayScene::Draw(float delta_time) {
 	//”wŒi
-	DrawExtendGraph(0,0,DXE_WINDOW_WIDTH+1,DXE_WINDOW_HEIGHT+1, background_hdl_, true);
+	//DrawExtendGraph(0,0,DXE_WINDOW_WIDTH+1,DXE_WINDOW_HEIGHT+1, background_hdl_, true);
 	//‘«êƒuƒƒbƒN
 	block_->Draw(*camera_);
 	player_->Draw(delta_time);
