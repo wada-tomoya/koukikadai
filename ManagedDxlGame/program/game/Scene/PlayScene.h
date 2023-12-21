@@ -3,6 +3,7 @@
 #include "SceneBace.h"
 #include "../Object/Block.h"
 #include "../Object/Camera.h"
+#include "../Character/Player.h"
 
 class PlayScene : public SceneBace{
 private:
@@ -10,6 +11,7 @@ private:
 	
 	std::shared_ptr<Block> block_ = nullptr;
 	std::shared_ptr<Camera> camera_ = nullptr;
+	std::shared_ptr<Player> player_ = nullptr;
 
 	//表示するブロックのリスト
 	std::list<std::shared_ptr<Block>> blocks_;

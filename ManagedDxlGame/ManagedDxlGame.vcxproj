@@ -174,8 +174,11 @@
     <ClCompile Include="program\dxlib_ext\dxlib_ext_shadow_map.cpp" />
     <ClCompile Include="program\dxlib_ext\dxlib_ext_texture.cpp" />
     <ClCompile Include="program\dxlib_ext\OBJLoader.cpp" />
+    <ClCompile Include="program\game\Character\CharacterBase.cpp" />
+    <ClCompile Include="program\game\Character\Player.cpp" />
     <ClCompile Include="program\game\gm_main.cpp" />
     <ClCompile Include="program\game\Manager\GameManager.cpp" />
+    <ClCompile Include="program\game\Object\Attack\Attack.cpp" />
     <ClCompile Include="program\game\Object\Block.cpp" />
     <ClCompile Include="program\game\Object\Camera.cpp" />
     <ClCompile Include="program\game\Scene\PlayScene.cpp" />
@@ -230,8 +233,11 @@
     <ClInclude Include="program\dxlib_ext\example\dxlib_ext_example_utl_lerp_vector3.h" />
     <ClInclude Include="program\dxlib_ext\example\dxlib_ext_example_utl_single_oscillationy.h" />
     <ClInclude Include="program\dxlib_ext\OBJLoader.h" />
+    <ClInclude Include="program\game\Character\CharacterBase.h" />
+    <ClInclude Include="program\game\Character\Player.h" />
     <ClInclude Include="program\game\gm_main.h" />
     <ClInclude Include="program\game\Manager\GameManager.h" />
+    <ClInclude Include="program\game\Object\Attack\Attack.h" />
     <ClInclude Include="program\game\Object\Block.h" />
     <ClInclude Include="program\game\Object\Camera.h" />
     <ClInclude Include="program\game\Scene\PlayScene.h" />

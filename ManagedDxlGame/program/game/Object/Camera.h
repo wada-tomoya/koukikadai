@@ -6,5 +6,5 @@ private:
 
 public:
 	tnl::Vector3 target_ ;
-	void Update(tnl::Vector3 target_pos_);
+	void Update(tnl::Vector3 target_pos);
 };

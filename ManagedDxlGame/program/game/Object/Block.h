@@ -5,10 +5,10 @@
 class Block {
 private:
 	//ブロックのサイズ
-	const float mapchip_size_ = 32.0f;
+	const float size_ = 32.0f;
 
 	//ブロックの画像
-	int mapchip_hdl_[40] {};
+	int graph_hdl_[40] {};
 
 	//ブロック表示場所のcsvデータ
 	std::vector<std::vector<int>> mapchip_csv_;

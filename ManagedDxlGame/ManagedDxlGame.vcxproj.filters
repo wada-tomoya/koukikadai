@@ -33,6 +33,12 @@
     <Filter Include="program\[003] game\Object">
       <UniqueIdentifier>{f2946444-25a0-4b99-a1b7-0e718807553f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="program\[003] game\Character">
+      <UniqueIdentifier>{66f19fa8-9c97-41fc-99ad-6708ec3a2d0b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="program\[003] game\Object\Attack">
+      <UniqueIdentifier>{437ed50f-0035-48ab-9135-bdf2f7420264}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="program\library\tnl_font_texture.cpp">
@@ -178,6 +184,15 @@
     </ClCompile>
     <ClCompile Include="program\game\Object\Camera.cpp">
       <Filter>program\[003] game\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\Character\Player.cpp">
+      <Filter>program\[003] game\Character</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\Character\CharacterBase.cpp">
+      <Filter>program\[003] game\Character</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\Object\Attack\Attack.cpp">
+      <Filter>program\[003] game\Object\Attack</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -355,6 +370,15 @@
     </ClInclude>
     <ClInclude Include="program\game\Object\Camera.h">
       <Filter>program\[003] game\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\Character\Player.h">
+      <Filter>program\[003] game\Character</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\Character\CharacterBase.h">
+      <Filter>program\[003] game\Character</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\Object\Attack\Attack.h">
+      <Filter>program\[003] game\Object\Attack</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
