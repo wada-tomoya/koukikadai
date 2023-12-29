@@ -178,6 +178,7 @@
     <ClCompile Include="program\game\Character\Player.cpp" />
     <ClCompile Include="program\game\gm_main.cpp" />
     <ClCompile Include="program\game\Manager\GameManager.cpp" />
+    <ClCompile Include="program\game\Manager\ResourceManager.cpp" />
     <ClCompile Include="program\game\Object\Attack\Attack.cpp" />
     <ClCompile Include="program\game\Object\Block.cpp" />
     <ClCompile Include="program\game\Object\Camera.cpp" />
@@ -237,6 +238,7 @@
     <ClInclude Include="program\game\Character\Player.h" />
     <ClInclude Include="program\game\gm_main.h" />
     <ClInclude Include="program\game\Manager\GameManager.h" />
+    <ClInclude Include="program\game\Manager\ResourceManager.h" />
     <ClInclude Include="program\game\Object\Attack\Attack.h" />
     <ClInclude Include="program\game\Object\Block.h" />
     <ClInclude Include="program\game\Object\Camera.h" />

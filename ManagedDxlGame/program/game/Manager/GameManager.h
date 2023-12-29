@@ -5,8 +5,9 @@ class GameManager {
 private:
 	SceneBace* nowscene_ = nullptr;
 
-public:
 	GameManager(SceneBace* startscene);
-	static GameManager* GetInstance(SceneBace* startscene = nullptr);
+public:
+	
+	static GameManager* GetInstance_GameManager(SceneBace* startscene = nullptr);
 	void Update(float delta_time);
 };

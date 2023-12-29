@@ -5,7 +5,7 @@ GameManager::GameManager(SceneBace* startscene) : nowscene_(startscene){
 	
 }
 
-GameManager* GameManager::GetInstance(SceneBace* startscene) {
+GameManager* GameManager::GetInstance_GameManager(SceneBace* startscene) {
 	static GameManager* instance = nullptr;
 	if (!instance) {
 		instance = new GameManager(startscene);

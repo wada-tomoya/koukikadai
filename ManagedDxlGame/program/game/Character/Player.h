@@ -5,19 +5,17 @@
 #include "../Object/Attack/Attack.h"
 
 
-class Player : public CharacterBase {
+class Player : public CharacterBase{
 private:
 	//‰æ‘œƒnƒ“ƒhƒ‹
 	int graphhdl_;
 
-	tnl::Vector3 mato_pos_{ 1000,100,0 };
-
-	std::shared_ptr<Attack> attack_ = nullptr;
-
+	std::list<Attack> attacks;
 public:
 	Player();
-	void Update(float delta_time) override;
+	void Update(float delta_time, tnl::Vector3 target_pos) override;
 	void Draw(float delta_time) override;
 	void Move(float delta_time);
 
 };
+

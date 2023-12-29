@@ -21,6 +21,4 @@ void Block::Draw(const Camera& camera) {
 			DrawGraph(draw_pos_.x, draw_pos_.y, graph_hdl_[mapchip_csv_[y][x]], true);
 		}
 	}
-
-	DrawStringEx(10, 10, -1, "ブロック表示");
 }

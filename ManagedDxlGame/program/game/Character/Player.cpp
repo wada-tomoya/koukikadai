@@ -7,23 +7,18 @@ Player::Player() {
 	
 	graphhdl_ = LoadGraph("graphics/char_test.png");
 
-	attack_ = std::make_shared<Attack>();
 }
 
-void Player::Update(float delta_time) {
+void Player::Update(float delta_time, tnl::Vector3 target_pos) {
 	Move(delta_time);
 
-	if (tnl::Input::IsKeyDown(eKeys::KB_SPACE)) {
-		attack_->Shot(10, pos_, mato_pos_);
-	}
 }
 
 void Player::Draw(float delta_time) {
 	//プレイヤー描画
 	DrawGraph(pos_.x, pos_.y, graphhdl_, true);
 
-	//仮の的
-	DrawGraph(mato_pos_.x, mato_pos_.y, graphhdl_, true);
+	
 }
 
 void Player::Move(float delta_time_) {

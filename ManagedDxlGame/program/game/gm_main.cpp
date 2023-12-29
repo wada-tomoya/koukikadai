@@ -10,14 +10,14 @@
 //------------------------------------------------------------------------------------------------------------
 // ゲーム起動時に１度だけ実行されます
 void gameStart() {
-	GameManager::GetInstance(new PlayScene());
+	GameManager::GetInstance_GameManager(new PlayScene());
 		
 }
 
 //------------------------------------------------------------------------------------------------------------
 // 毎フレーム実行されます
 void gameMain(float delta_time) {
-	GameManager::GetInstance()->Update(delta_time);
+	GameManager::GetInstance_GameManager()->Update(delta_time);
 
 }
 
