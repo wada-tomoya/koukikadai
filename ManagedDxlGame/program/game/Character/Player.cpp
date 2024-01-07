@@ -11,14 +11,19 @@ Player::Player() {
 
 void Player::Update(float delta_time, tnl::Vector3 target_pos) {
 	Move(delta_time);
-
+	Attack(delta_time);
 }
 
 void Player::Draw(float delta_time) {
 	//プレイヤー描画
 	DrawGraph(pos_.x, pos_.y, graphhdl_, true);
 
-	
+	//弾の表示
+	auto it = normal_attacks_.begin();
+	while (it != normal_attacks_.end()) {
+		(*it)->Draw(delta_time);
+		it++;
+	}
 }
 
 void Player::Move(float delta_time_) {
@@ -37,5 +42,19 @@ void Player::Move(float delta_time_) {
 	//移動　左
 	if (tnl::Input::IsKeyDown(eKeys::KB_A)) {
 		pos_.x -= speed_;
+	}
+}
+
+void Player::Attack(float delta_time) {
+	//スペースで攻撃（仮）
+	if (tnl::Input::IsKeyDownTrigger(eKeys::KB_SPACE)) {
+		normal_attacks_.emplace_back(std::make_shared<NormalAttack>(pos_, pos_, 10));
+	}
+
+	//弾のUpdate実行、
+	auto it = normal_attacks_.begin();
+	while (it != normal_attacks_.end()) {
+		(*it)->Update(delta_time);
+		it++;
 	}
 }

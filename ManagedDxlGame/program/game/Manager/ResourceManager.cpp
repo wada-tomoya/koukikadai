@@ -2,7 +2,7 @@
 
 ResourceManager::ResourceManager() {
 	//csv“Ç‚İ‚İ
-	graphics_csv_ = tnl::LoadCsv<std::string>("csv/graph.csv");
+	graphics_csv_ = tnl::LoadCsv<std::string>("csv/Resource_csv/graph.csv");
 
 }
 
@@ -40,7 +40,7 @@ int ResourceManager::LoadGraph_(std::string graph_name) {
 	return -1;
 }
 
-void ResourceManager::deleteGraph_(std::string graph_name) {
+void ResourceManager::DeleteGraph_(std::string graph_name) {
 	// file_path‚É‘Î‰‚·‚é‰æ‘œƒnƒ“ƒhƒ‹‚ğ’T‚·
 	auto it = graphics_map_.find(graph_name);
 
@@ -52,3 +52,5 @@ void ResourceManager::deleteGraph_(std::string graph_name) {
 		graphics_map_.erase(graph_name);
 	}
 }
+
+

@@ -21,13 +21,8 @@ void PlayScene::Update(float delta_time) {
 
 void PlayScene::Draw(float delta_time) {
 	//”wŒi
-	if (background_hdl_ == -1) {
-		DrawStringEx(10, 10, -1, "‰æ‘œ‚ª“Ç‚Ýž‚ß‚Ä‚È‚¢");
-	}
-	else {
-		DrawExtendGraph(0, 0, DXE_WINDOW_WIDTH + 1, DXE_WINDOW_HEIGHT + 1, background_hdl_, true);
-		DrawStringEx(10, 10, -1, "”wŒi•\Ž¦");
-	} 
+	DrawExtendGraph(0, 0, DXE_WINDOW_WIDTH + 1, DXE_WINDOW_HEIGHT + 1, background_hdl_, true);
+	DrawStringEx(10, 10, -1, "”wŒi•\Ž¦");
 
 	//‘«êƒuƒƒbƒN
 	block_->Draw(*camera_);

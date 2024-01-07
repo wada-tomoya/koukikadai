@@ -191,11 +191,14 @@
     <ClCompile Include="program\game\Character\CharacterBase.cpp">
       <Filter>program\[003] game\Character</Filter>
     </ClCompile>
-    <ClCompile Include="program\game\Object\Attack\Attack.cpp">
+    <ClCompile Include="program\game\Object\Attack\NormalAttack.cpp">
       <Filter>program\[003] game\Object\Attack</Filter>
     </ClCompile>
     <ClCompile Include="program\game\Manager\ResourceManager.cpp">
       <Filter>program\[003] game\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\Object\Attack\AttackBase.cpp">
+      <Filter>program\[003] game\Object\Attack</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -380,11 +383,14 @@
     <ClInclude Include="program\game\Character\CharacterBase.h">
       <Filter>program\[003] game\Character</Filter>
     </ClInclude>
-    <ClInclude Include="program\game\Object\Attack\Attack.h">
+    <ClInclude Include="program\game\Object\Attack\NormalAttack.h">
       <Filter>program\[003] game\Object\Attack</Filter>
     </ClInclude>
     <ClInclude Include="program\game\Manager\ResourceManager.h">
       <Filter>program\[003] game\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\Object\Attack\AttackBase.h">
+      <Filter>program\[003] game\Object\Attack</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
