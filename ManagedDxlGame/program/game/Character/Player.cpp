@@ -9,7 +9,7 @@ Player::Player() {
 
 }
 
-void Player::Update(float delta_time, tnl::Vector3 target_pos) {
+void Player::Update(float delta_time) {
 	Move(delta_time);
 	Attack(delta_time);
 }
@@ -46,9 +46,16 @@ void Player::Move(float delta_time_) {
 }
 
 void Player::Attack(float delta_time) {
-	//スペースで攻撃（仮）
-	if (tnl::Input::IsKeyDownTrigger(eKeys::KB_SPACE)) {
-		normal_attacks_.emplace_back(std::make_shared<NormalAttack>(pos_, pos_, 10));
+	//マウスの座標
+	int mouse_pos_x = 0;
+	int mouse_pos_y = 0;
+
+	//クリックで攻撃
+	if (tnl::Input::IsMouseTrigger(eMouseTrigger::IN_LEFT)) {
+		GetMousePoint(&mouse_pos_x, &mouse_pos_y);
+		mposx = mouse_pos_x;
+		mposy = mouse_pos_y;
+		normal_attacks_.emplace_back(std::make_shared<NormalAttack>(pos_, mouse_pos_x,mouse_pos_y, 10));
 	}
 
 	//弾のUpdate実行、

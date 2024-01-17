@@ -12,16 +12,17 @@ private:
 	//初期座標
 	tnl::Vector3 spawn_pos_{0,0,0};
 	//攻撃の進行方向（クリックした座標）
-	tnl::Vector3 target_pos_ = {0,0,0};
+	int target_pos_x_ = 0;
+	int target_pos_y_ = 0;
 	//弾の速度
 	float speed_ = 0;
 	//弾を発射する角度
-	int angle_ = 0;
+	float angle_ = 0;
 	//弾の生死
 	bool is_alive_ = true;
 
 public:	
-	NormalAttack(const tnl::Vector3& spawn_pos, const tnl::Vector3& target_pos, const float& speed);
+	NormalAttack(const tnl::Vector3& spawn_pos, const int& mouse_pos_x, const int& mouse_pos_y, const float& speed);
 
 	//攻撃関数
 	void Update(float delta_time);

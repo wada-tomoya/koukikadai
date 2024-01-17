@@ -200,6 +200,9 @@
     <ClCompile Include="program\game\Object\Attack\AttackBase.cpp">
       <Filter>program\[003] game\Object\Attack</Filter>
     </ClCompile>
+    <ClCompile Include="program\game\Character\Enemy.cpp">
+      <Filter>program\[003] game\Character</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="ManagedDxlGame.rc">
@@ -391,6 +394,9 @@
     </ClInclude>
     <ClInclude Include="program\game\Object\Attack\AttackBase.h">
       <Filter>program\[003] game\Object\Attack</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\Character\Enemy.h">
+      <Filter>program\[003] game\Character</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

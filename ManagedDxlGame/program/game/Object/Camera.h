@@ -5,6 +5,8 @@ class Camera {
 private:
 
 public:
+	//カメラのターゲットの座標
 	tnl::Vector3 target_ ;
+	//カメラのアップデートの処理
 	void Update(tnl::Vector3 target_pos);
 };

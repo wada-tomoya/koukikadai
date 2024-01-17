@@ -175,6 +175,7 @@
     <ClCompile Include="program\dxlib_ext\dxlib_ext_texture.cpp" />
     <ClCompile Include="program\dxlib_ext\OBJLoader.cpp" />
     <ClCompile Include="program\game\Character\CharacterBase.cpp" />
+    <ClCompile Include="program\game\Character\Enemy.cpp" />
     <ClCompile Include="program\game\Character\Player.cpp" />
     <ClCompile Include="program\game\gm_main.cpp" />
     <ClCompile Include="program\game\Manager\GameManager.cpp" />
@@ -236,6 +237,7 @@
     <ClInclude Include="program\dxlib_ext\example\dxlib_ext_example_utl_single_oscillationy.h" />
     <ClInclude Include="program\dxlib_ext\OBJLoader.h" />
     <ClInclude Include="program\game\Character\CharacterBase.h" />
+    <ClInclude Include="program\game\Character\Enemy.h" />
     <ClInclude Include="program\game\Character\Player.h" />
     <ClInclude Include="program\game\gm_main.h" />
     <ClInclude Include="program\game\Manager\GameManager.h" />

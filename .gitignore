@@ -32,10 +32,10 @@
 *.app
 
 #除外フォルダ
-x64/
+x64/Debug/
 .vs
 ManagedDxlGame/graphics/
 ManagedDxlGame/mesh/
 ManagedDxlGame/sound/
-ManagedDxlGame/x64/
+ManagedDxlGame/x64/Debug/
 ManagedDxlGame/.txt

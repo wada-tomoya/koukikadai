@@ -10,6 +10,6 @@ protected:
 	//ï\é¶ç¿ïW
 	tnl::Vector3 pos_ { 0,0,0 };
 public:
-	virtual void Update(float delat_time, tnl::Vector3 target_pos) {};
+	virtual void Update(float delat_time) {};
 	virtual void Draw(float delat_time) {};
 };
