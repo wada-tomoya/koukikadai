@@ -20,4 +20,6 @@ public:
 	ProtectObject();
 	//表示関数
 	void Draw(float delta_time, const Camera& camera);
+	//座標ゲッター
+	tnl::Vector3 GetterPos();
 };

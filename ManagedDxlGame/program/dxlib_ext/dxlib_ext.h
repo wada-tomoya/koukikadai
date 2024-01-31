@@ -17,12 +17,19 @@
 #include "../library/stb_image.h"
 #include "../library/json11.hpp"
 #include "DxLib.h"
+#include "dxlib_ext_data.h"
 #include "dxlib_ext_camera.h"
-#include "dxlib_ext_mesh.h"
+#include "mesh/dxlib_ext_mesh.h"
+#include "mesh/dxlib_ext_inst_mesh.h"
 #include "dxlib_ext_texture.h"
-#include "dxlib_ext_gui_value_slider.h"
-#include "dxlib_ext_gui_menu_selector.h"
-#include "dxlib_ext_shadow_map.h"
+#include "gui/dxlib_ext_gui_value_slider.h"
+#include "gui/dxlib_ext_gui_menu_selector.h"
+#include "gui/dxlib_ext_gui_drag_box.h"
+#include "gui/dxlib_ext_gui_input_box.h"
+#include "gui/dxlib_ext_gui_check_box.h"
+#include "effects/dxlib_ext_shadow_map.h"
+#include "effects/dxlib_ext_particle.h"
+#include "effects/dxlib_ext_screen_effect.h"
 
 // ウィンドウの幅
 const int DXE_WINDOW_WIDTH = 1280;
@@ -123,6 +130,19 @@ std::string GetDragFilePathReadTrigger();
 void GetLookAtCameraFactor(const float axis_x_angle, const float axis_y_angle, const float distance, tnl::Vector3& out_target_to_position);
 void GetFreeLookCameraFactor(const tnl::Vector3& position, const tnl::Vector3& target, float& out_axis_x_angle, float& out_axis_y_angle, float& out_distance);
 void GetTransformCameraFactor(const tnl::Vector3& position, const tnl::Vector3& target, const tnl::Vector3& up, tnl::Quaternion& out_rot);
+
+namespace dxe {
+	float GetDeltaTime();
+	void DirectXInitialize();
+	void DirectXRenderBegin();
+	void DirectXRenderEnd();
+	void DirectXRelease();
+
+	ID3D11DepthStencilState* GetDepthStencilState(const eDepthStenclil mode);
+	ID3D11BlendState* GetBlendState(const eBlendState state);
+	ID3D11SamplerState* GetSamplerState(const eSamplerState state);
+	ID3D11RasterizerState* GetRasterizerState(const eRasterizerState state);
+}
 
 /*
 

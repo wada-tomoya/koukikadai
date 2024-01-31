@@ -3,10 +3,10 @@
 #include <stdarg.h>
 #include "DxLib.h"
 #include "dxlib_ext.h"
-#include "dxlib_ext_gui_value_slider.h"
+#include "dxlib_ext_data.h"
 
 std::string g_drag_file_path;
-
+float g_delta_time = 0;
 
 //------------------------------------------------------------------------------------------------------------------------------
 void DrawStringEx(float x, float y, int color, const char* _str, ...) {
@@ -63,6 +63,11 @@ void DrawFpsIndicator(const tnl::Vector3& pos, float delta_time) {
 	static float fps_rate = 0;
 	static float width = 0;
 	static int call_num = 0;
+	static int font_hdl = 0;
+
+	if (0 == font_hdl) {
+		font_hdl = CreateFontToHandle(_T("DrawFpsIndicator"), 10, 9, DX_FONTTYPE_NORMAL, GetDefaultFontHandle());
+	}
 
 	sum_time += delta_time;
 	sum_fps += GetFPS();
@@ -75,15 +80,12 @@ void DrawFpsIndicator(const tnl::Vector3& pos, float delta_time) {
 		call_num = 0;
 	}
 	width += ((198 * fps_rate) - width) * 0.05f;
-	int fs = GetFontSize();
-	SetFontSize(10);
 	int x = (int)pos.x;
 	int y = (int)pos.y;
 	DrawBox(x, y, x + 260, y + 10, 0, true);
 	DrawBox(x + 1, y + 1, x + 199, y + 9, -1, false);
 	DrawBox(x + 2, y + 2, x + (int)width, y + 8, 0xff77ff77, true);
-	DrawStringEx(pos.x + 210, pos.y, -1, "%.1f fps", DXE_FIX_FPS * fps_rate);
-	SetFontSize(fs);
+	DrawStringToHandleEx(pos.x + 210, pos.y, -1, font_hdl, "%.1f fps", DXE_FIX_FPS * fps_rate);
 }
 
 //------------------------------------------------------------------------------------------------------------------------------
@@ -450,6 +452,7 @@ std::string GetDragFilePathReadTrigger() {
 }
 
 
+
 //------------------------------------------------------------------------------------------------------------------------------
 void DrawDefaultLightGuiController() {
 
@@ -638,4 +641,303 @@ void GetFreeLookCameraFactor(const tnl::Vector3& position, const tnl::Vector3& t
 
 void GetTransformCameraFactor(const tnl::Vector3& position, const tnl::Vector3& target, const tnl::Vector3& up, tnl::Quaternion& out_rot) {
 	out_rot = tnl::Quaternion::LookAt(position, target, up);
+}
+
+namespace dxe {
+
+#if 1
+
+	static ComPtr<ID3D11DepthStencilState> g_state_depth_stencil[static_cast<int>(eDepthStenclil::MAX)] ;
+	static ComPtr<ID3D11BlendState> g_blend_states[static_cast<int>(eBlendState::MAX)];
+	static ComPtr<ID3D11SamplerState> g_sampler_states[static_cast<int>(eSamplerState::MAX)];
+	static ComPtr<ID3D11RasterizerState> g_rasterizer_states[static_cast<int>(eRasterizerState::MAX)];
+
+	ID3D11DepthStencilState* GetDepthStencilState(const eDepthStenclil mode) { return g_state_depth_stencil[static_cast<int>(mode)].Get(); }
+	ID3D11BlendState* GetBlendState(const eBlendState state) { return g_blend_states[static_cast<int>(state)].Get(); }
+	ID3D11SamplerState* GetSamplerState(const eSamplerState state) { return g_sampler_states[static_cast<int>(state)].Get(); }
+	ID3D11RasterizerState* GetRasterizerState(const eRasterizerState state) { return g_rasterizer_states[static_cast<int>(state)].Get(); }
+
+	void CreateDepthStencil(const eDepthStenclil e_ds, const D3D11_DEPTH_WRITE_MASK depth_write_mask, bool depth_enable) {
+		HRESULT hr = E_FAIL;
+		ID3D11Device* pd3dDevice = (ID3D11Device*)DxLib::GetUseDirect3D11Device();
+		D3D11_DEPTH_STENCIL_DESC dsState;
+		::ZeroMemory(&dsState, sizeof(D3D11_DEPTH_STENCIL_DESC));
+		dsState.DepthWriteMask = depth_write_mask;
+		dsState.DepthFunc = D3D11_COMPARISON_LESS;
+		dsState.DepthEnable = depth_enable;
+		dsState.StencilEnable = FALSE;
+		ID3D11DepthStencilState* dss = nullptr;
+		hr = pd3dDevice->CreateDepthStencilState(&dsState, &dss);
+		g_state_depth_stencil[static_cast<int>(e_ds)].Attach(dss);
+		if (S_OK != hr) {
+			tnl::DebugTrace("Error : dxe::DirectXInitialize CreateDepthStencilState \n");
+			return;
+		}
+	}
+
+	void CreateBlendState(const eBlendState state) {
+		HRESULT hr = E_FAIL;
+		ID3D11Device* pd3dDevice = (ID3D11Device*)DxLib::GetUseDirect3D11Device();
+
+		//-------------------------------------------------------------------------------------------------
+		// ブレンドステートの作成
+		D3D11_RENDER_TARGET_BLEND_DESC desc;
+		desc.BlendEnable = TRUE;
+		switch (state) {
+		case eBlendState::NORMAL:
+			desc.BlendEnable = FALSE;
+			break;
+		case eBlendState::ALPHA:
+			desc.SrcBlend = D3D11_BLEND_SRC_ALPHA;
+			desc.DestBlend = D3D11_BLEND_INV_SRC_ALPHA;
+			break;
+		case eBlendState::ADD:
+			desc.SrcBlend = D3D11_BLEND_ONE;
+			desc.DestBlend = D3D11_BLEND_ONE;
+			break;
+		case eBlendState::SUB:
+			desc.SrcBlend = D3D11_BLEND_ZERO;
+			desc.DestBlend = D3D11_BLEND_INV_SRC_COLOR;
+			break;
+		case eBlendState::MUL:
+			desc.SrcBlend = D3D11_BLEND_DEST_COLOR;
+			desc.DestBlend = D3D11_BLEND_ZERO;
+			break;
+		}
+		desc.BlendOp = D3D11_BLEND_OP_ADD;
+		desc.SrcBlendAlpha = D3D11_BLEND_ONE;
+		desc.DestBlendAlpha = D3D11_BLEND_ZERO;
+		desc.BlendOpAlpha = D3D11_BLEND_OP_ADD;
+		desc.RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
+		D3D11_BLEND_DESC blend_desc;
+		::ZeroMemory(&blend_desc, sizeof(D3D11_BLEND_DESC));
+		::CopyMemory(&blend_desc.RenderTarget[0], &desc, sizeof(D3D11_RENDER_TARGET_BLEND_DESC));
+		ID3D11BlendState* bs = nullptr;
+		hr = pd3dDevice->CreateBlendState(&blend_desc, &bs);
+		g_blend_states[static_cast<int>(state)].Attach(bs);
+
+		if (S_OK != hr) {
+			tnl::DebugTrace("-----------------------------------------------------------------\n");
+			tnl::DebugTrace("Error : Particle Create Blend State \n");
+			tnl::DebugTrace("-----------------------------------------------------------------\n");
+			return;
+		}
+	}
+
+
+	void CreateSamplerState(const eSamplerState state) {
+
+		HRESULT hr = E_FAIL;
+		ID3D11Device* pd3dDevice = (ID3D11Device*)DxLib::GetUseDirect3D11Device();
+
+		//-------------------------------------------------------------------------------------------------
+		// サンプラーステートの作成
+		D3D11_SAMPLER_DESC samplerDesc;
+		::ZeroMemory(&samplerDesc, sizeof(D3D11_SAMPLER_DESC));
+
+		switch (state) {
+		case eSamplerState::ANISOTROPIC:
+			samplerDesc.Filter = D3D11_FILTER_ANISOTROPIC;        
+			samplerDesc.MaxAnisotropy = 16;                        // サンプリングに異方性補間を使用している場合の限界値。有効な値は 1 ～ 16 。
+			break;
+		case eSamplerState::BILINEAR:
+			samplerDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
+			samplerDesc.MaxAnisotropy = 1;                        
+			break;
+		case eSamplerState::NEAREST:
+			samplerDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_POINT;
+			samplerDesc.MaxAnisotropy = 1;
+			break;
+		}
+
+		samplerDesc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;     // 0 ～ 1 の範囲外にある u テクスチャー座標の描画方法
+		samplerDesc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;     // 0 ～ 1 の範囲外にある v テクスチャー座標の描画方法
+		samplerDesc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;     // 0 ～ 1 の範囲外にある w テクスチャー座標の描画方法
+		samplerDesc.MipLODBias = 0;                            // 計算されたミップマップ レベルからのバイアス
+		samplerDesc.ComparisonFunc = D3D11_COMPARISON_ALWAYS;  // 比較オプション。
+
+		samplerDesc.BorderColor[0] = 0;
+		samplerDesc.BorderColor[1] = 0;
+		samplerDesc.BorderColor[2] = 0;
+		samplerDesc.BorderColor[3] = 0;
+
+		samplerDesc.MinLOD = 0;                                // アクセス可能なミップマップの下限値
+		samplerDesc.MaxLOD = D3D11_FLOAT32_MAX;                // アクセス可能なミップマップの上限値
+		ID3D11SamplerState* st = nullptr;
+		hr = pd3dDevice->CreateSamplerState(&samplerDesc, &st);
+		g_sampler_states[static_cast<int>(state)].Attach(st);
+
+		if (S_OK != hr) {
+			tnl::DebugTrace("-----------------------------------------------------------------\n");
+			tnl::DebugTrace("Error : Instancing Create Sampler State \n");
+			tnl::DebugTrace("-----------------------------------------------------------------\n");
+			return;
+		}
+
+
+	}
+
+
+	void CreateRasterizerState(const eRasterizerState state) {
+
+		HRESULT hr = E_FAIL;
+		ID3D11Device* pd3dDevice = (ID3D11Device*)DxLib::GetUseDirect3D11Device();
+
+		ID3D11RasterizerState* rs = nullptr;
+		D3D11_RASTERIZER_DESC desc = {};
+
+		switch (state) {
+		case eRasterizerState::CULL_NONE :
+			desc.CullMode = D3D11_CULL_NONE;
+			desc.FillMode = D3D11_FILL_SOLID;
+			break;
+		case eRasterizerState::CULL_FRONT:
+			desc.CullMode = D3D11_CULL_FRONT;
+			desc.FillMode = D3D11_FILL_SOLID;
+			break;
+		case eRasterizerState::CULL_BACK:
+			desc.CullMode = D3D11_CULL_BACK;
+			desc.FillMode = D3D11_FILL_SOLID;
+			break;
+		case eRasterizerState::WIREFRAME:
+			desc.CullMode = D3D11_CULL_NONE;
+			desc.FillMode = D3D11_FILL_WIREFRAME;
+			break;
+		}
+
+		desc.FrontCounterClockwise = true;
+		desc.ScissorEnable = false;
+		desc.MultisampleEnable = false;
+		hr = pd3dDevice->CreateRasterizerState(&desc, &rs);
+		if (S_OK != hr) {
+			tnl::DebugTrace("-----------------------------------------------------------------\n");
+			tnl::DebugTrace("Error : Particle Create Rasterizer State \n");
+			tnl::DebugTrace("-----------------------------------------------------------------\n");
+			return;
+		}
+		g_rasterizer_states[static_cast<int>(state)].Attach(rs);
+
+	}
+
+
+
+	//------------------------------------------------------------------------------------------------------------------------------
+	float GetDeltaTime() {
+		return g_delta_time;
+	}
+
+
+	//------------------------------------------------------------------------------------------------------------------------------
+	static ID3D11VertexShader* default_vs = nullptr;
+	static ID3D11PixelShader* default_ps = nullptr;
+	static ID3D11HullShader* default_hs = nullptr;
+	static ID3D11GeometryShader* default_gs = nullptr;
+	static ID3D11DomainShader* default_ds = nullptr;
+	static UINT32 default_sample_mask = 0;
+	static ID3D11BlendState* default_blend_state = nullptr;
+	static ID3D11RasterizerState* default_rasterize_state = nullptr;
+	static ID3D11SamplerState* default_sampler_state = nullptr;
+	static ID3D11ShaderResourceView* default_pixel_shader_resouce_view = nullptr;
+	static ID3D11DepthStencilState* default_depth_stencil_state_ = nullptr;
+	static UINT default_depth_stencil_ref_ = 0;
+
+	void DirectXRenderBegin() {
+		ID3D11DeviceContext* pImmediateContext = (ID3D11DeviceContext*)DxLib::GetUseDirect3D11DeviceContext();
+
+		pImmediateContext->OMGetDepthStencilState(&default_depth_stencil_state_, &default_depth_stencil_ref_);
+
+		// DX ライブラリのシェーダバックアップ
+		pImmediateContext->VSGetShader(&default_vs, NULL, 0);
+		pImmediateContext->PSGetShader(&default_ps, NULL, 0);
+		pImmediateContext->HSGetShader(&default_hs, NULL, 0);
+		pImmediateContext->GSGetShader(&default_gs, NULL, 0);
+		pImmediateContext->DSGetShader(&default_ds, NULL, 0);
+
+		// ブレンドステートバックアップ
+		pImmediateContext->OMGetBlendState(&default_blend_state, 0, &default_sample_mask);
+
+		// ラスタライザステートバックアップ
+		pImmediateContext->RSGetState(&default_rasterize_state);
+
+		// サンプラステートバックアップ
+		pImmediateContext->PSGetSamplers(0, 1, &default_sampler_state);
+
+		// ピクセルシェーダリソースビュー
+		pImmediateContext->PSGetShaderResources(0, 1, &default_pixel_shader_resouce_view);
+	}
+
+	//------------------------------------------------------------------------------------------------------------------------------
+	void DirectXRenderEnd() {
+		ID3D11DeviceContext* pImmediateContext = (ID3D11DeviceContext*)DxLib::GetUseDirect3D11DeviceContext();
+
+		pImmediateContext->OMSetDepthStencilState(default_depth_stencil_state_, default_depth_stencil_ref_);
+
+		// DX ライブラリへシェーダバックアップを復帰
+		pImmediateContext->VSSetShader(default_vs, NULL, 0);
+		pImmediateContext->PSSetShader(default_ps, NULL, 0);
+		pImmediateContext->HSSetShader(default_hs, NULL, 0);
+		pImmediateContext->GSSetShader(default_gs, NULL, 0);
+		pImmediateContext->DSSetShader(default_ds, NULL, 0);
+
+		pImmediateContext->OMSetBlendState(default_blend_state, 0, default_sample_mask);
+		pImmediateContext->RSSetState(default_rasterize_state);
+		pImmediateContext->PSSetSamplers(0, 1, &default_sampler_state);
+		pImmediateContext->PSSetShaderResources(0, 1, &default_pixel_shader_resouce_view);
+
+		DxLib::RefreshDxLibDirect3DSetting();
+	}
+
+	//------------------------------------------------------------------------------------------------------------------------------
+	void DirectXInitialize() {
+
+		HRESULT hr = E_FAIL;
+		ID3D11Device* pd3dDevice = (ID3D11Device*)DxLib::GetUseDirect3D11Device();
+		ID3D11DeviceContext* pImmediateContext = (ID3D11DeviceContext*)DxLib::GetUseDirect3D11DeviceContext();
+
+		//-------------------------------------------------------------------------------------------------
+		// 深度ステンシルステート作成 ( ステンシル設定なし )
+		CreateDepthStencil(eDepthStenclil::DEPTH_W_ON_T_ON, D3D11_DEPTH_WRITE_MASK_ALL, TRUE);
+		CreateDepthStencil(eDepthStenclil::DEPTH_W_ON_T_OFF, D3D11_DEPTH_WRITE_MASK_ALL, FALSE);
+		CreateDepthStencil(eDepthStenclil::DEPTH_W_OFF_T_ON, D3D11_DEPTH_WRITE_MASK_ZERO, TRUE);
+		CreateDepthStencil(eDepthStenclil::DEPTH_W_OFF_T_OFF, D3D11_DEPTH_WRITE_MASK_ZERO, FALSE);
+
+		//-------------------------------------------------------------------------------------------------
+		// ブレンドステート作成 
+		CreateBlendState(eBlendState::NORMAL);
+		CreateBlendState(eBlendState::ALPHA);
+		CreateBlendState(eBlendState::ADD);
+		CreateBlendState(eBlendState::SUB);
+		CreateBlendState(eBlendState::MUL);
+
+		//-------------------------------------------------------------------------------------------------
+		// サンプラテート作成 
+		CreateSamplerState(eSamplerState::ANISOTROPIC);
+		CreateSamplerState(eSamplerState::BILINEAR);
+		CreateSamplerState(eSamplerState::NEAREST);
+
+		//-------------------------------------------------------------------------------------------------
+		// ラスタライザステート作成
+		CreateRasterizerState(eRasterizerState::CULL_NONE);
+		CreateRasterizerState(eRasterizerState::CULL_FRONT);
+		CreateRasterizerState(eRasterizerState::CULL_BACK);
+		CreateRasterizerState(eRasterizerState::WIREFRAME);
+	}
+
+	//------------------------------------------------------------------------------------------------------------------------------
+	void DirectXRelease() {
+
+		for (int i = 0; i < static_cast<int>(eDepthStenclil::MAX); ++i) {
+			g_state_depth_stencil[i].Reset();
+		}
+		for (int i = 0; i < static_cast<int>(eBlendState::MAX); ++i) {
+			g_blend_states[i].Reset();
+		}
+		for (int i = 0; i < static_cast<int>(eSamplerState::MAX); ++i) {
+			g_sampler_states[i].Reset();
+		}
+		for (int i = 0; i < static_cast<int>(eRasterizerState::MAX); ++i) {
+			g_rasterizer_states[i].Reset();
+		}
+	}
+#endif
 }

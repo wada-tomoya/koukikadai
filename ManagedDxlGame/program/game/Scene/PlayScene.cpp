@@ -10,18 +10,19 @@ PlayScene::PlayScene() {
 	//オブジェクトインスタンス
 	block_ = std::make_shared<Block>();
 	camera_ = std::make_shared<Camera>();
-	player_ = std::make_shared<Player>();
+	player_ = std::make_shared<Player>(bg_pos_.y, map_endpos_.y, map_endpos_.x, bg_pos_.x);
 	protectobj_ = std::make_shared<ProtectObject>();
-	enemy_ = std::make_shared<Enemy>(enemy_target_pos, enemy_spon_pos, 5.0f);
+	enemy_ = std::make_shared<Enemy>(protectobj_->GetterPos(), enemy_spon_pos, 5.0f);
+	enemy_ = std::make_shared<Enemy>(protectobj_->GetterPos(), enemy_spon_pos2, 5.0f);
 }
 
 void PlayScene::Update(float delta_time) {
+	//カメラ、プレイヤー追尾									  ↓マップチップ分
+	camera_->Update(player_->GetterPos(), bg_pos_.y, map_endpos_.y + 48.0f, map_endpos_.x, bg_pos_.x);
 	//プレイヤー実行
 	player_->Update(delta_time);
-	//カメラ、プレイヤー追尾
-	camera_->Update(player_->GetterPos());
 	//敵
-	//enemy_->Update(delta_time);
+	enemy_->Update(delta_time);
 }
 
 void PlayScene::Draw(float delta_time) {

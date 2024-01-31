@@ -1,6 +1,6 @@
 #include "Player.h"
 
-Player::Player() {
+Player::Player(float up_edge, float down_edge, float right_edge, float left_edge) {
 	//移動速度
 	speed_ = 5;
 	//画像サイズ
@@ -9,10 +9,15 @@ Player::Player() {
 	pos_ = { 900,570,0 };
 	//アニメーション画像ロード
 	anim_hdl_ = ResourceManager::GetInstance_ResourceManager()->LoadAnim_("PLAYER_RIGHT");
+	//プレイヤーが動ける画面の端
+	up_edge_ = up_edge + size_.y;
+	down_edge_ = down_edge - size_.y-76;
+	right_edge_ = right_edge - size_.x;
+	left_edge_ = left_edge + size_.x;
 }
 
 void Player::Update(float delta_time) {
-	Move(delta_time);
+	Move(delta_time, up_edge_, down_edge_, right_edge_, left_edge_);
 	Attack(delta_time);
 }
 
@@ -32,11 +37,13 @@ void Player::Draw(float delta_time, const Camera& camera) {
 	DrawStringEx(10, 10, -1, "player_pos.x %f, player_pos.y %f",pos_.x,pos_.y);
 }
 
-void Player::Move(float delta_time) {
+void Player::Move(float delta_time, float up_edge, float down_edge, float right_edge, float left_edge) {
 	//移動　上
 	if (tnl::Input::IsKeyDown(eKeys::KB_W)) {
 		//移動
 		pos_.y -= speed_;
+		//上端以上に行かない
+		if (pos_.y < up_edge) pos_.y = up_edge;
 		//アニメーション再生
 		Anim_Play(anim_hdl_, delta_time);
 	}
@@ -44,6 +51,8 @@ void Player::Move(float delta_time) {
 	if (tnl::Input::IsKeyDown(eKeys::KB_S)) {
 		//移動
 		pos_.y += speed_;
+		//下端以上に行かない
+		if (pos_.y > down_edge) pos_.y = down_edge;
 		//アニメーション再生
 		Anim_Play(anim_hdl_, delta_time);
 	}
@@ -51,6 +60,8 @@ void Player::Move(float delta_time) {
 	if (tnl::Input::IsKeyDown(eKeys::KB_D)) {
 		//移動
 		pos_.x += speed_; 
+		//右端以上に行かない
+		if (pos_.x > right_edge) pos_.x = right_edge;
 		//アニメーション再生
 		Anim_Play(anim_hdl_, delta_time);
 		//向きを右
@@ -60,6 +71,8 @@ void Player::Move(float delta_time) {
 	if (tnl::Input::IsKeyDown(eKeys::KB_A)) {
 		//移動
 		pos_.x -= speed_;
+		//左端以上に行かない
+		if (pos_.x < left_edge) pos_.x = left_edge;
 		//アニメーション再生
 		Anim_Play(anim_hdl_, delta_time);
 		//向きを左

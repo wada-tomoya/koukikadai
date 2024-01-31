@@ -1,4 +1,4 @@
-#include "../dxlib_ext_mesh.h"
+#include "../mesh/dxlib_ext_mesh.h"
 #define STB_IMAGE_IMPLEMENTATION
 #include "../../library/stb_image.h"
 

@@ -22,8 +22,6 @@ Shared<dxe::Mesh> object = nullptr;
 Shared<dxe::Mesh> ground = nullptr;
 Shared<dxe::ShadowMap> shadow = nullptr;
 
-int ShadowMapHandle;
-
 //------------------------------------------------------------------------------------------------------------
 // ゲーム起動時に１度だけ実行されます
 void gameStart() {

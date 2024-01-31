@@ -2,6 +2,33 @@
 
 namespace dxe {
 
+	//------------------------------------------------------------------------------------------------------------
+	tnl::Vector3 Camera::getFlustumNormal(eFlustum flustum) {
+
+		if (flustum == eFlustum::Near) return forward();
+		if (flustum == eFlustum::Far) return -forward();
+
+		tnl::Vector3 cross_v[4];
+		cross_v[static_cast<int>(eFlustum::Left)] = tnl::Vector3::Cross(forward(), left());
+		cross_v[static_cast<int>(eFlustum::Right)] = -tnl::Vector3::Cross(forward(), left());
+		cross_v[static_cast<int>(eFlustum::Bottom)] = right();
+		cross_v[static_cast<int>(eFlustum::Top)] = left();
+
+		tnl::Vector2i screen_v[4] = {
+			{ 0,					DXE_WINDOW_HEIGHT / 2 },
+			{ DXE_WINDOW_WIDTH,		DXE_WINDOW_HEIGHT / 2 },
+			{ DXE_WINDOW_WIDTH / 2,	DXE_WINDOW_HEIGHT },
+			{ DXE_WINDOW_WIDTH / 2,	0 }
+		};
+
+		tnl::Vector3 ray_nml = tnl::Vector3::CreateScreenRay(
+			screen_v[static_cast<int>(flustum)].x,
+			screen_v[static_cast<int>(flustum)].y,
+			screen_w_, screen_h_, view_, proj_);
+		return tnl::Vector3::Cross(ray_nml, cross_v[static_cast<int>(flustum)]);
+	}
+
+
 	void Camera::render( float scale, uint32_t color ) {
 
 		// オブジェクトのワールド行列の作成

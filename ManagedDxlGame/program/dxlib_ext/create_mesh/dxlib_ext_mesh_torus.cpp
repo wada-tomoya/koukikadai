@@ -1,5 +1,5 @@
 #include <directxmath.h>
-#include "../dxlib_ext_mesh.h"
+#include "../mesh/dxlib_ext_mesh.h"
 
 namespace dxe {
 

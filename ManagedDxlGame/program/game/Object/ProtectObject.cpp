@@ -10,3 +10,7 @@ void ProtectObject::Draw(float delta_time, const Camera& camera) {
 	//‰æ‘œ•\Ž¦
 	DrawGraph(draw_pos.x, draw_pos.y, (*anim_hdl_)[anim_frame_], true);
 }
+
+tnl::Vector3 ProtectObject::GetterPos() {
+	return pos_;
+}
