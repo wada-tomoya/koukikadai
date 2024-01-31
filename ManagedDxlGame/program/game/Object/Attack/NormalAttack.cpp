@@ -2,8 +2,6 @@
 
 NormalAttack::NormalAttack(const tnl::Vector3& spawn_pos, const int& mouse_pos_x, const int& mouse_pos_y, const float& speed) {
 	//‰æ‘œƒ[ƒh
-	//  = ResourceManager::GetInstance_ResourceManager()->LoadGraph_("NORMAL_SHOT");
-	
 	graph_hdl_ = LoadGraph("graphics/Attack/bullet.bmp");
 
 	//ˆø”‚Åó‚¯æ‚Á‚½’l‚ğ•Ï”‚É“ü‚ê‚é

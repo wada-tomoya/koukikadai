@@ -203,6 +203,12 @@
     <ClCompile Include="program\game\Character\Enemy.cpp">
       <Filter>program\[003] game\Character</Filter>
     </ClCompile>
+    <ClCompile Include="program\game\Manager\Spawner.cpp">
+      <Filter>program\[003] game\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\Object\ProtectObject.cpp">
+      <Filter>program\[003] game\Object</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="ManagedDxlGame.rc">
@@ -397,6 +403,12 @@
     </ClInclude>
     <ClInclude Include="program\game\Character\Enemy.h">
       <Filter>program\[003] game\Character</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\Manager\Sspawner.h">
+      <Filter>program\[003] game\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\Object\ProtectObject.h">
+      <Filter>program\[003] game\Object</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
